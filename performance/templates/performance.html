@@ -1,0 +1,285 @@
+{% extends "base_cc.html" %}
+
+{% block title %}Performance{% endblock %}
+
+{% block extra_css %}
+<style>
+    .performance-details {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between; /* Asegura que los elementos no se empujen entre ellos */
+        align-items: flex-start;
+    }
+.welcome-message {
+    flex: 1; /* Asigna dos partes del espacio al mensaje de bienvenida */
+}
+.welcome-message h1 {
+    font-size: 80px; /* Ajuste en tamaño de fuente para la bienvenida */
+    color: #333; 
+}
+
+.classification {
+    flex: 1; /* Asigna una parte del espacio a la clasificación */
+    font-size: 180px; /* Ajusta el tamaño de la letra */
+    color: black; /* Color de la letra */
+    display: flex;
+    justify-content: center; /* Centra la letra en su división */
+    align-items: center; /* Alinea la letra verticalmente */
+    opacity: 1; /* Asegura que sea totalmente visible */
+}
+
+    .chart-container {
+        width: 100%; /* Alinea ambos gráficos de barra en la parte inferior */
+        display: flex;
+        justify-content: space-between;
+    }
+    .chart {
+        width: 40%; /* Cada gráfico de barra toma aproximadamente la mitad del espacio disponible */
+        height: 250px; /* Altura fija para gráficos de barra */
+        background-color: #fff; /* Fondo blanco para mejorar la visibilidad */
+        margin-right: 10px; /* Espacio entre los gráficos */
+        border-radius: 15px; /* Esquinas redondeadas */
+        backdrop-filter: blur(10px); /* Fondo borroso para un efecto estético */
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra ligera para profundidad */
+    }
+
+    canvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    .footer {
+    background-color: transparent;
+    padding: 100px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-radius: 19px;
+    border-color: aquamarine;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    color: whitesmoke;
+}
+
+.joke-container {
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.joke-container h3 {
+    margin-bottom: 5px;
+}
+
+.joke-container p {
+    margin: 0;
+    font-style: italic;
+}
+
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="performance-container">
+    <div class="performance-details">
+        <div class="progress-bar-container">
+            <div class="header">
+                <div class="welcome-message">
+                    <h1>Hola, {{ usuario_nombre|capfirst }}!</h1>
+                </div>
+                <!-- Contenedor para la animación de la clasificación -->
+            </div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas id="tareasChart" class="chart"></canvas>
+        <canvas id="clientesChart" class="chart"></canvas>
+    </div>
+</div>
+<footer class="footer">
+    <div id="dailyJoke" class="joke-container">
+        <p id="jokeText">Cargando chiste...</p>
+    </div>
+</footer>
+{% endblock %}
+
+
+
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+        // Fetch daily joke
+        fetch('https://official-joke-api.appspot.com/jokes/random')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('jokeText').innerText = `${data.setup} - ${data.punchline}`;
+            })
+            .catch(error => {
+                document.getElementById('jokeText').innerText = 'No se pudo cargar el chiste. Intenta nuevamente más tarde.';
+                console.error('Error fetching joke:', error);
+            });
+    });
+    
+    Chart.defaults.font.size = 22   ; // Tamaño de fuente global más grande para mejor legibilidad
+
+    // Gráfico para las tareas más frecuentes
+    var ctxTareas = document.getElementById('tareasChart').getContext('2d');
+    var tareasChart = new Chart(ctxTareas, {
+        type: 'bar',
+        data: {
+            labels: [{% for tarea in tareas_frecuentes %}'{{ tarea.verbo }} {{ tarea.objeto }}',{% endfor %}],
+            datasets: [{
+                label: 'Horas dedicadas por tarea',
+                data: [{% for tarea in tareas_frecuentes %}{{ tarea.total_horas }},{% endfor %}],
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Tareas mas comunes',
+                    font: {
+                        size: 18
+                    }
+                },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Gráfico para los clientes con más tiempo dedicado
+    var ctxClientes = document.getElementById('clientesChart').getContext('2d');
+    var clientesChart = new Chart(ctxClientes, {
+        type: 'bar',
+        data: {
+            labels: [{% for client in top_clients %}'{{ client.cliente }}',{% endfor %}],
+            datasets: [{
+                label: 'Horas dedicadas por cliente',
+                data: [{% for client in top_clients %}{{ client.total_horas }},{% endfor %}],
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Horas por Cliente',
+                    font: {
+                        size: 18
+                    }
+                },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // grafico radar de gestiones:
+    var ctxManagement = document.getElementById('managementTypeChart').getContext('2d');
+    var managementTypeChart = new Chart(ctxManagement, {
+        type: 'radar',
+        data: {
+            labels: [{% for item in management_types %}'{{ item.gestion_tipo }}',{% endfor %}],
+            datasets: [{
+                label: 'Horas dedicadas por tipo de gestión',
+                data: [{% for item in management_types %}{{ item.total_horas }},{% endfor %}],
+                fill: true,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 4 // Bordes más gruesos para mejor visibilidad
+            }]
+        },
+        options: {
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    pointLabels: { // Aquí es donde debemos ajustar para las etiquetas de los puntos
+                        font: {
+                            size: 18, // Aumenta el tamaño de la fuente de las etiquetas de los puntos
+                            weight: 'bold' // Hace las etiquetas de los puntos en negrita
+                        }
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                        backdropColor: 'transparent', // Fondo de las etiquetas del eje transparente
+                        font: {
+                            size: 10, // Tamaño de la fuente para las etiquetas
+                            weight: 'bold' // Texto en negrita para las etiquetas
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 16, // Tamaño de letra más grande en la leyenda
+                            weight: 'bold' // Texto en negrita
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
+
+

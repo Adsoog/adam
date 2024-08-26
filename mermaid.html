@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Diagrama con Mermaid.js</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        pre.mermaid {
+            font-family: 'Trebuchet MS', Verdana, Arial;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            white-space: pre-wrap; /* Mantiene el formato del código Mermaid */
+        }
+    </style>
+</head>
+<body>
+    <h1>Crear Diagrama de Flujo con Mermaid.js</h1>
+
+    <!-- Campo de texto para ingresar el código Mermaid -->
+    <textarea id="mermaid-code" placeholder="Escribe tu código Mermaid aquí...">graph LR
+    A[Start] --> B{¿Está funcionando?}
+    B -->|Sí| C[Continuar]
+    B -->|No| D[Arreglar]
+    D --> B</textarea>
+
+    <!-- Botón para renderizar el diagrama -->
+    <button id="render-button">Renderizar Diagrama</button>
+
+    <!-- Contenedor para mostrar el diagrama renderizado -->
+    <pre id="diagram-container" class="mermaid"></pre>
+
+    <!-- Importar Mermaid.js como un módulo ESM -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+        // Configurar Mermaid
+        mermaid.initialize({
+            securityLevel: 'loose', // Permite clics y etiquetas HTML en los diagramas
+            startOnLoad: false      // No renderiza automáticamente, lo haremos manualmente
+        });
+
+        // Esperar a que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar el evento de clic al botón
+            document.getElementById('render-button').addEventListener('click', function() {
+                // Obtener el código Mermaid del textarea
+                const code = document.getElementById('mermaid-code').value;
+                // Insertar el código en el contenedor de diagrama
+                document.getElementById('diagram-container').innerHTML = code;
+                // Renderizar el diagrama con Mermaid
+                mermaid.run({nodes: [document.getElementById('diagram-container')]});
+            });
+        });
+    </script>
+</body>
+</html>

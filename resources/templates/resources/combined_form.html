@@ -1,0 +1,248 @@
+{% extends "base_cc.html" %}
+
+{% load crispy_forms_tags %}
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto');
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .content-container {
+        font-size: 14px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .breadcrumb-container {
+        margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+        background-color: black;
+        border-radius: 0.25rem;
+        padding: 15px; /* Mayor padding para hacerlo más grande */
+        font-size: 1.5em; /* Mayor tamaño de fuente */
+    }
+
+    .breadcrumb-item a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item.active {
+        color: #ffc107;
+    }
+
+    .container, form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .form-section {
+        margin-bottom: 20px;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+    }
+
+    .title-container {
+        width: 100%;
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        border-radius: 0.5rem; /* Borde más redondeado */
+        font-size: 1.5em;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .form-container, .resource-lists {
+        flex: 0 0 50%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        max-height: 400px;
+        overflow-y: auto;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    table {
+        width: 100%;
+        height: 100%;
+        min-width: 600px;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    .crispy-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <div class="title-container">
+        Recursos de calidad, seguridad y operativos
+    </div>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-section">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ resource_form|crispy }}
+                    <button type="submit" class="btn btn-primary btn-block" name="form_type" value="resource_form">Guardar Recurso</button>
+                </form>
+            </div>
+
+            <div class="form-section">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ hazard_form|crispy }}
+                    <button type="submit" class="btn btn-primary btn-block" name="form_type" value="hazard_form">Guardar Peligro</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="resource-lists">
+            <div class="table-container">
+                <h2>Recursos de Seguridad</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seguridad</th>
+                            <th>Peligro</th>
+                            <th>Riesgo</th>
+                            <th>Causa</th>
+                            <th>Control</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resource in seguridad_resources %}
+                        <tr>
+                            <td>{{ resource.resource }}</td>
+                            <td>
+                                {% for hazard in resource.hazards.all %}
+                                    {{ hazard.hazard }}<br>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for hazard in resource.hazards.all %}
+                                    {% if hazard.risk %}
+                                        {{ hazard.risk.description }}<br>
+                                    {% else %}
+                                        N/A<br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for hazard in resource.hazards.all %}
+                                    {% if hazard.cause %}
+                                        {{ hazard.cause.description }}<br>
+                                    {% else %}
+                                        N/A<br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for hazard in resource.hazards.all %}
+                                    {% if hazard.control %}
+                                        {{ hazard.control.measures }}<br>
+                                    {% else %}
+                                        N/A<br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-container">
+                <h2>Recursos de Calidad</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Calidad</th>
+                            <th>Peligro</th>
+                            <th>Riesgo</th>
+                            <th>Causa</th>
+                            <th>Control</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resource in calidad_resources %}
+                        <tr>
+                            <td>{{ resource.resource }}</td>
+                            <td>
+                                {% for hazard in resource.hazards.all %}
+                                    {{ hazard.hazard }}<br>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for hazard in resource.hazards.all %}
+                                    {% if hazard.risk %}
+                                        {{ hazard.risk.description }}<br>
+                                    {% else %}
+                                        N/A<br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for hazard in resource.hazards.all %}
+                                    {% if hazard.cause %}
+                                        {{ hazard.cause.description }}<br>
+                                    {% else %}
+                                        N/A<br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for hazard in resource.hazards.all %}
+                                    {% if hazard.control %}
+                                        {{ hazard.control.measures }}<br>
+                                    {% else %}
+                                        N/A<br>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

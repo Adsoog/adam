@@ -1,0 +1,131 @@
+{% extends "base_cc.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Añadir Recurso{% endblock %}
+
+{% block extra_css %}
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto');
+
+    .content-container {
+        font-size: 14px;
+        padding: 20px;
+        margin: 0;
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+    }
+
+    .form-container, .task-list-container {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 15px rgba(64, 64, 64, .7);
+        width: 50%;
+        box-sizing: border-box;
+    }
+
+    .task-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+    /* Estilos personalizados para la barra de desplazamiento */
+    .task-list::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .task-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    .task-list::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+    .task-list::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    .task-list-item {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .task-list-item:last-child {
+        border-bottom: none;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        padding: 10px;
+        font-size: 1em;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        padding: 10px;
+        font-size: 1em;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        color: white;
+    }
+
+    .btn-container {
+        display: flex;
+        gap: 10px;
+    }
+
+    /* Media Query para pantallas pequeñas */
+    @media screen and (max-width: 768px) {
+        .content-container {
+            flex-direction: column; /* Cambiar a disposición de columna en pantallas pequeñas */
+        }
+
+        .form-container, .task-list-container {
+            width: 100%; /* Ocupar todo el ancho en pantallas pequeñas */
+            margin-bottom: 20px; /* Agregado: espacio entre los contenedores */
+        }
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="content-container">
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="btn-container mt-3">
+                <button type="submit" class="btn btn-primary" name="save">Guardar</button>
+                <a class="btn btn-secondary" href="{% url 'new_lista_tareas' %}">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+

@@ -1,0 +1,6 @@
+asgiref==3.8.1
+Django==5.1
+django-browser-reload==1.15.0
+django-htmx==1.19.0
+sqlparse==0.5.1
+tzdata==2024.1
