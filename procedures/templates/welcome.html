@@ -1,0 +1,35 @@
+{% extends 'base_procedures.html' %}
+
+{% block title %}Bienvenida{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="custom-section">
+                <h2>Bienvenido a la Gestión del Sistema</h2>
+                <p>Seleccione una opción del menú para comenzar.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+    mermaid.initialize({
+        securityLevel: 'loose',
+        startOnLoad: false
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('render-button')?.addEventListener('click', function() {
+            const code = document.getElementById('mermaid-code').value;
+            document.getElementById('diagram-container').innerHTML = code;
+            mermaid.run({nodes: [document.getElementById('diagram-container')]});
+        });
+    });
+</script>
+{% endblock %}

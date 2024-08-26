@@ -122,7 +122,7 @@
     <div class="d-flex" id="wrapper">
         <div id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 primary-text fs-8 fw-bold text-uppercase">
-                <a href="{% url 'nexus' %}" class="nav-link" style="color: inherit;">
+                <a href="{% url 'nexus' %}" ht-target="#main" class="nav-link" style="color: inherit;">
                     <span>JP</span>
                 </a>
             </div>
@@ -131,7 +131,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span>Inicio</span>
                 </a>
-                <a href="" class="list-group-item list-group-item-action">
+                <a hx-get="{% url 'interested' %}" hx-target="#main" class="list-group-item list-group-item-action">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Interesados</span>
                 </a>
@@ -163,6 +163,29 @@
     </div>
 
     {% include 'partials/scripts.html' %}
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    
+        mermaid.initialize({
+            securityLevel: 'loose',
+            startOnLoad: false
+        });
+    
+    
+    document.body.addEventListener('htmx:afterSettle', function(evt) {
+        if (evt.target.id === 'main') {
+            document.getElementById('render-button')?.addEventListener('click', function() {
+                const code = document.getElementById('mermaid-code').value;
+                const container = document.getElementById('diagram-container');
+                container.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevo contenido
+                container.innerHTML = code;
+                mermaid.run({nodes: [container]});
+            });
+        }
+    });
+    
+    </script>
+
 
     {% block extra_js %}{% endblock %}
 </body>

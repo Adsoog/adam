@@ -1,12 +1,24 @@
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="custom-section">
-                <h2>Bienvenido a la Gestion de Inicio</h2>
+                <h2>Bienvenido a la Gestión de Inicio</h2>
                 <p>Utilice las opciones de la barra lateral para navegar entre las diferentes funcionalidades del sistema.</p>
             </div>
         </div>
     </div>
-</div>
 
+    <!-- Área para crear el diagrama de flujo con Mermaid.js -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Crear Diagrama de Flujo</h3>
+            <textarea id="mermaid-code" class="form-control" placeholder="Escribe tu código Mermaid aquí...">graph LR
+    A[Start] --> B{¿Está funcionando?}
+    B -->|Sí| C[Continuar]
+    B -->|No| D[Arreglar]
+    D --> B</textarea>
+            <button id="render-button" class="btn btn-primary mt-3">Renderizar Diagrama</button>
+            <pre id="diagram-container" class="mermaid mt-3"></pre>
+        </div>
+    </div>
+</div>
