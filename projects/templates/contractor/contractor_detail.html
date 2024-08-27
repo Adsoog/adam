@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h1>{{ object.contractor_name }}</h1>
+      </div>
+      <div class="card-body">
+        <p><strong>Address:</strong> {{ object.address }}</p>
+        <p><strong>Phone:</strong> {{ object.phone }}</p>
+        <p><strong>Email:</strong> {{ object.email }}</p>
+        <div class="btn-group mt-3" role="group">
+          <a href="{% url 'contractor_edit' object.pk %}" class="btn btn-primary">Edit</a>
+          <a href="{% url 'contractor_delete' object.pk %}" class="btn btn-danger">Delete</a>
+          <a href="{% url 'contractor_list' %}" class="btn btn-secondary">Back to list</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

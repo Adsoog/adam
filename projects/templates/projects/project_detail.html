@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="card-title mb-0">{{ object.project_name }}</h1>
+      </div>
+      <div class="card-body">
+        <p class="card-text"><strong>Cliente:</strong> {{ object.client.client_name }}</p>
+        <p class="card-text"><strong>Contratista:</strong> {{ object.contractor.contractor_name }}</p>
+        <div class="btn-group mt-3" role="group" aria-label="Project actions">
+          <a href="{% url 'project_edit' object.pk %}" class="btn btn-warning">Editar</a>
+          <a href="{% url 'project_delete' object.pk %}" class="btn btn-danger">Eliminar</a>
+          <a href="{% url 'project_list' %}" class="btn btn-secondary">Volver a la lista</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

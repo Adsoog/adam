@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container-fluid mt-4">
+    <div class="p-5 bg-white rounded shadow-lg border border-secondary">
+      <h2 class="mb-4 text-primary border-bottom border-3 border-primary pb-3 d-flex justify-content-between align-items-center">
+        {{ object.project.project_name }}
+        <span>
+          <span class="badge bg-primary rounded-pill">Fecha: {{ object.fecha }}</span>
+          <span class="badge bg-warning rounded-pill">UTI: {{ object.total_utilidad | floatformat:2 }} PEN</span>
+          <span class="badge bg-danger rounded-pill">GSA: {{ object.total_gastos_administrativos | floatformat:2 }} PEN</span>
+          <span class="badge bg-success rounded-pill">{{ object.total_soles_final | floatformat:2 }} PEN</span>
+          <span class="badge bg-info rounded-pill">{{ object.total_dolares_final | floatformat:2 }} USD</span>
+        </span>
+      </h2>
+      
+      <div class="row mb-4">
+        <!-- Primera columna: Días, Número de Cotización, Facturación -->
+        <div class="col-md-4">
+          <div class="p-4 border rounded shadow-sm bg-light border-info mb-3">
+            <strong>Días:</strong> {{ object.dias }}
+          </div>
+          <div class="p-4 border rounded shadow-sm bg-light border-info mb-3">
+            <strong>Cotización:</strong> {{ object.numero_cotizacion }}
+          </div>
+          <div class="p-4 border rounded shadow-sm bg-light border-info">
+            <strong>Facturación:</strong> {{ object.facturacion }}
+          </div>
+        </div>
+        
+        <!-- Segunda columna: Tiempo de Entrega, Tiempo de Servicio, Tiempo de Garantía -->
+        <div class="col-md-4">
+          <div class="p-4 border rounded shadow-sm bg-light border-success mb-3">
+            <strong>Tiempo de Entrega:</strong> {{ object.tiempo_entrega }}
+          </div>
+          <div class="p-4 border rounded shadow-sm bg-light border-success mb-3">
+            <strong>Tiempo de Servicio:</strong> {{ object.tiempo_servicio }}
+          </div>
+          <div class="p-4 border rounded shadow-sm bg-light border-success">
+            <strong>Tiempo de Garantía:</strong> {{ object.tiempo_garantia }}
+          </div>
+        </div>
+
+        <!-- Tercera columna: Valor Total en Soles y USD (parciales) -->
+        <div class="col-md-4">
+          <div class="p-4 border rounded shadow-sm bg-light border-warning mb-3">
+            <strong>Parcial en Soles:</strong> {{ object.total_soles_parcial | floatformat:2 }} PEN
+          </div>
+          <div class="p-4 border rounded shadow-sm bg-light border-warning mb-3">
+            <strong>Parcial en USD:</strong> {{ object.total_dolares_parcial | floatformat:2 }} USD
+          </div>
+          <div class="p-4 border rounded shadow-sm bg-light border-warning">
+            <strong>Tipo de Cambio:</strong> {{ object.tipo_cambio }}
+          </div>
+        </div>
+      </div>
+
+      {% if object.no_incluye %}
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="p-4 border rounded shadow-sm bg-light border-danger">
+            <strong>No Incluye:</strong> {{ object.no_incluye }}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <h3 class="mt-5 text-primary border-bottom border-3 border-primary pb-2">Ítems</h3>
+
+      <div class="row">
+        <div class="col-md-6">
+          {% include 'partials/item_table.html' with title="Equipos" items=equipos %}
+          {% include 'partials/item_table.html' with title="EPPS" items=epps %}
+          {% include 'partials/item_table.html' with title="Transporte" items=transporte %}
+          {% include 'partials/item_table.html' with title="Materiales" items=materiales %}
+        </div>
+
+        <div class="col-md-6">
+          {% include 'partials/item_table.html' with title="Consumibles" items=consumibles %}
+          {% include 'partials/item_table.html' with title="Alimentos" items=alimentos %}
+          {% include 'partials/item_table.html' with title="Mano de Obra" items=manodeobra %}
+          {% include 'partials/item_table.html' with title="Herramientas" items=herramientas %}
+          {% include 'partials/item_table.html' with title="Misceláneos" items=misc %}
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mt-5">
+        <a href="{{ export_url }}" class="btn btn-success w-100 me-2 shadow-lg">Cotización</a>
+        <a href="{% url 'budget-edit' object.pk %}" class="btn btn-warning w-100 mx-2 shadow-lg">Editar Presupuesto</a>
+        <a href="{% url 'budget-item-update' object.pk %}" class="btn btn-primary w-100 mx-2 shadow-lg">Editar Cantidades</a>
+        <a href="{% url 'budget-delete' object.pk %}" class="btn btn-danger w-100 ms-2 shadow-lg">Eliminar</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

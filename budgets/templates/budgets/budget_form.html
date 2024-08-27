@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="container-fluid mt-4">
+    <form method="post" class="p-4 rounded shadow" style="background-color: #E6E6FA;">
+      {% csrf_token %}
+      
+      <div class="row">
+        
+        <!-- Primera columna: Campos principales -->
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              {{ form.dias.label_tag }}{{ form.dias|add_class:"form-control rounded" }}
+            </div>
+            <div class="col-md-6 mb-3">
+              {{ form.fecha.label_tag }}{{ form.fecha|add_class:"form-control rounded" }}
+            </div>
+          </div>
+          <div class="mb-3">
+            {{ form.project.label_tag }}{{ form.project|add_class:"form-control rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.budget_name.label_tag }}{{ form.budget_name|add_class:"form-control rounded" }}
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              {{ form.moneda.label_tag }}{{ form.moneda|add_class:"form-select rounded" }}
+            </div>
+            <div class="col-md-6 mb-3">
+              {{ form.tipo_cambio.label_tag }}{{ form.tipo_cambio|add_class:"form-control rounded" }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              {{ form.impuesto.label_tag }}{{ form.impuesto|add_class:"form-control rounded" }}
+            </div>
+            <div class="col-md-6 mb-3">
+              {{ form.facturacion.label_tag }}{{ form.facturacion|add_class:"form-control rounded" }}
+            </div>
+          </div>
+          <div class="mb-3">
+            {{ form.tiempo_entrega.label_tag }}{{ form.tiempo_entrega|add_class:"form-control rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.tiempo_servicio.label_tag }}{{ form.tiempo_servicio|add_class:"form-control rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.tiempo_garantia.label_tag }}{{ form.tiempo_garantia|add_class:"form-control rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.no_incluye.label_tag }}{{ form.no_incluye|add_class:"form-control rounded" }}
+          </div>
+        </div>
+
+        <!-- Segunda columna: Inventarios -->
+        <div class="col-md-4">
+          <div class="mb-3">
+            {{ form.inventarios_equipos.label_tag }}{{ form.inventarios_equipos|add_class:"select2 form-select rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.inventarios_epps.label_tag }}{{ form.inventarios_epps|add_class:"select2 form-select rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.inventarios_transporte.label_tag }}{{ form.inventarios_transporte|add_class:"select2 form-select rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.inventarios_materiales.label_tag }}{{ form.inventarios_materiales|add_class:"select2 form-select rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.inventarios_consumibles.label_tag }}{{ form.inventarios_consumibles|add_class:"select2 form-select rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.inventarios_alimentos.label_tag }}{{ form.inventarios_alimentos|add_class:"select2 form-select rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.inventarios_manodeobra.label_tag }}{{ form.inventarios_manodeobra|add_class:"select2 form-select rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.inventarios_herramientas.label_tag }}{{ form.inventarios_herramientas|add_class:"select2 form-select rounded" }}
+          </div>
+          <div class="mb-3">
+            {{ form.inventarios_misc.label_tag }}{{ form.inventarios_misc|add_class:"select2 form-select rounded" }}
+          </div>
+        </div>
+
+        <!-- Tercera columna: Detalle Inventario -->
+        <div class="col-md-4">
+          <h4 class="mb-3">Detalle Inventario</h4>
+          <!-- Aquí podrás agregar campos o contenido adicional en el futuro -->
+          <div class="mb-3">
+            <p class="text-muted">Espacio reservado para detalles de inventario.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary w-100 rounded">Guardar</button>
+        </div>
+        <div class="col-md-6">
+          <a href="{% url 'budget-list' %}" class="btn btn-secondary w-100 rounded">Cancelar</a>
+        </div>
+      </div>
+      
+    </form>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <!-- Inicializa Select2 para los campos con la clase 'select2' -->
+  <script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            theme: 'bootstrap-5',
+        });
+    });
+  </script>
+{% endblock %}

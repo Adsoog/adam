@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="display-6">Lista de Presupuestos</h1>
+    </div>
+    <div class="col-auto ms-auto">
+      <a href="{% url 'budget-add' %}" class="btn btn-primary">Añadir nuevo Presupuesto</a>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-hover table-striped align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Presupuesto</th>
+        <th>Proyecto</th>
+        <th>Cliente</th>
+        <th>Días</th>
+        <th>Valor Total</th>
+        <th class="text-center">Moneda</th>
+        <th class="text-center">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for budget in object_list %}
+        <tr onclick="window.location.href='{% url 'budget-detail' budget.pk %}'" style="cursor: pointer;">
+          <td>
+            <strong>{{ budget.budget_name }}</strong>
+            <span class="badge bg-info ms-2">{{ budget.fecha|date:"d/m/Y" }}</span>
+          </td>
+          <td>{{ budget.project.project_name }}</td>
+          <td>{{ budget.project.client.client_name }}</td>
+          <td>
+            <span class="badge bg-secondary">{{ budget.dias }}</span> días
+          </td>
+          <td>
+            <strong>{{ budget.valor_total }}</strong>
+            <span class="text-muted">{{ budget.moneda }}</span>
+          </td>
+          <td class="text-center">
+            {% if budget.moneda == 'USD' %}
+              <span class="badge bg-success">USD</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">PEN</span>
+            {% endif %}
+          </td>
+          <td class="text-center">
+            {% if budget.estado == 'Aprobado' %}
+              <span class="badge bg-success">Aprobado</span>
+            {% elif budget.estado == 'Pendiente' %}
+              <span class="badge bg-warning text-dark">Pendiente</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Pendiente</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

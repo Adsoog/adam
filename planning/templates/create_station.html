@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-4">
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.name.label_tag }} 
+            {{ form.name|add_class:"form-control"|attr:"placeholder:Nombre de la estación" }}
+        </div>
+        <div class="mb-3">
+            {{ form.description.label_tag }} 
+            {{ form.description|add_class:"form-control"|attr:"placeholder:Descripción" }}
+        </div>
+        <button type="submit" class="btn btn-primary">Crear Estación</button>
+    </form>
+</div>
+{% endblock %}

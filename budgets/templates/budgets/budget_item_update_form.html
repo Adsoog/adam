@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="container-fluid mt-4">
+    <form method="post" class="p-4 rounded shadow" style="background-color: #E6E6FA;">
+      {% csrf_token %}
+
+      <table class="table table-bordered table-hover table-striped align-middle">
+        <thead class="table-light">
+          <tr>
+            <!-- Columna de datos no editables -->
+            <th>Inventario</th>
+            <th>Tipo</th>
+            <th>Unidad de Medida</th>
+            <th>Precio Actual</th>
+            <th>Cantidad Actual</th>
+            <th>Vida Útil Actual</th>
+            
+            <!-- Columna de campos editables -->
+            <th>Nuevo Precio</th>
+            <th>Nueva Cantidad</th>
+            <th>Nueva Vida Útil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item_form in item_forms %}
+            <tr>
+              <!-- Datos no editables -->
+              <td>
+                <strong>{{ item_form.instance.inventario.descripcion }}</strong>
+                <small class="text-muted d-block">{{ item_form.instance.inventario.codigo }}</small>
+              </td>
+              <td>{{ item_form.instance.content_type.model|title }}</td>
+              <td>{{ item_form.instance.unidad_medida }}</td>
+              <td>{{ item_form.instance.real_price }}</td> <!-- Precio Actual -->
+              <td>{{ item_form.instance.cantidad }}</td> <!-- Cantidad Actual -->
+              <td>{{ item_form.instance.vida_util }} días</td> <!-- Vida Útil Actual -->
+
+              <!-- Campos editables sin etiquetas -->
+              <td>{{ item_form.real_price|add_class:"form-control rounded" }}</td> <!-- Nuevo Precio Editable -->
+              <td>{{ item_form.cantidad|add_class:"form-control rounded" }}</td> <!-- Nueva Cantidad Editable -->
+              <td>{{ item_form.vida_util|add_class:"form-select rounded" }}</td> <!-- Nueva Vida Útil Editable -->
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- Botones de acción -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary w-100 rounded">Guardar</button>
+        </div>
+        <div class="col-md-6">
+          <a href="{% url 'budget-list' %}" class="btn btn-secondary w-100 rounded">Cancelar</a>
+        </div>
+      </div>
+      
+    </form>
+  </div>
+{% endblock %}

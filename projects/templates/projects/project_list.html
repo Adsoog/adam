@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<style>
+  .card {
+    transition: transform 0.2s;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+  }
+
+  .card-title {
+    color: #007bff;
+  }
+
+  .card-body {
+    background-color: #f8f9fa;
+  }
+
+  .btn-primary {
+    background-color: #0062cc;
+    border-color: #0056b3;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    border-color: #218838;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1>Proyectos</h1>
+    </div>
+    <div class="col-auto ms-auto">
+      <a href="{% url 'project_add' %}" class="btn btn-success">Añadir nuevo proyecto</a>
+    </div>
+  </div>
+  <div class="row">
+    {% for project in object_list %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ project.project_name }}</h5>
+            <p class="card-text"><strong>Cliente:</strong> {{ project.client.client_name }}</p>
+            <p class="card-text"><strong>Contratista:</strong> {{ project.contractor.contractor_name }}</p>
+            <p class="card-text"><strong>Orden de Venta:</strong> {{ project.ov_name }}</p>
+            <p class="card-text"><strong>Codigo SAP:</strong> {{ project.sap_code }}</p>
+            <p class="card-text"><strong>Fecha de Fin:</strong> {{ project.end_date }}</p>
+            <p class="card-text"><strong>Días desde el inicio:</strong> {{ project.days_since_start }}</p>
+            <p class="card-text"><strong>Presupuesto Total:</strong> ${{ project.total_budget }}</p>
+            <a href="{% url 'project_edit' project.pk %}" class="btn btn-primary">Editar</a>
+            <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">Ver Detalles</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

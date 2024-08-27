@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1 class="mb-4">Eliminar Proyecto</h1>
+    <p>¿Estás seguro de que deseas eliminar "{{ object.project_name }}"?</p>
+    <form method="post" class="mb-4">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Confirmar</button>
+      <a href="{% url 'project_list' %}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="mb-4">{% if object %}Editar{% else %}Añadir{% endif %} Contratista</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary mt-3">{% if object %}Actualizar{% else %}Crear{% endif %}</button>
+      <a href="{% url 'contractor_list' %}" class="btn btn-secondary mt-3">Volver a la lista</a>
+    </form>
+  </div>
+{% endblock %}
