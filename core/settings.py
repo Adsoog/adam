@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     'home',
     'procedures',
+    'projects',
+    'station',
+    'planning',
 ]
 
 MIDDLEWARE = [
