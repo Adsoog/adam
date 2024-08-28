@@ -113,7 +113,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config (
-        default = 'postgresql://adambd_user:p7VkyqCgeUjtZIkGaRu7s7d8V3rZ0P5i@dpg-cr78qf9u0jms73ag0nd0-a/adambd',
+        default = 'sqlite:///db.sqlite3',
         conn_max_age=600
     )
 }
@@ -161,6 +161,11 @@ LANGUAGE_CODE = 'es-pe'
 TIME_ZONE = 'UTC'
 USE_L10N = True 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
 if not DEBUG:  
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
