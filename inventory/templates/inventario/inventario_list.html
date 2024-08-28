@@ -1,0 +1,97 @@
+{% extends "base_inventario.html" %}
+
+{% block title %}Inventario{% endblock %}
+{% block page_title %}<h1 class="text-center mb-0">Inventario</h1>{% endblock %}
+
+{% block content %}
+<style>
+    .auto-size {
+        font-size: clamp(0.8rem, 4vw, 1.5rem);
+    }
+    .card-title {
+        hyphens: auto;
+    }  
+</style>
+
+<div class="container">
+    <div class="mt-4 d-flex align-items-center justify-content-between">
+        <h1 class="mb-4">Inventario</h1>
+        <a href="{% url 'upload_excel' %}" class="btn btn-primary">Subir Archivo Excel</a>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title auto-size">Equipos</h2>
+                    <p class="card-text">Total: {{ equipos_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title auto-size">EPPS</h2>
+                    <p class="card-text">Total: {{ epps_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title auto-size">Transporte</h2>
+                    <p class="card-text">Total: {{ transporte_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title auto-size">Materiales</h2>
+                    <p class="card-text">Total: {{ materiales_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title auto-size">Consumibles</h2>
+                    <p class="card-text">Total: {{ consumibles_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title auto-size">Alimentos</h2>
+                    <p class="card-text">Total: {{ alimentos_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title auto-size">Mano de Obra</h2>
+                    <p class="card-text">Total: {{ mano_de_obra_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title auto-size">Herramientas</h2>
+                    <p class="card-text">Total: {{ herramientas_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title auto-size">Misc</h2>
+                    <p class="card-text">Total: {{ misc_count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

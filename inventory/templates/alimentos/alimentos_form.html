@@ -1,0 +1,15 @@
+{% extends "base_inventario.html" %}
+
+{% block title %}{{ form.instance.pk|yesno:"Editar,Crear" }} Alimento{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ form.instance.pk|yesno:"Editar,Crear" }} Alimento</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="{% url 'alimentos-list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

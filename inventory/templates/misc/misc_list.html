@@ -1,0 +1,22 @@
+{% extends "base_inventario.html" %}
+
+{% block title %}Lista de Misc{% endblock %}
+{% block page_title %}<h1 class="text-center mb-0">Lista de Misc</h1>{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Lista de Misc</h1>
+    <a href="{% url 'misc-create' %}" class="btn btn-primary mb-3">Crear nuevo Misc</a>
+    <ul class="list-group">
+        {% for item in misc %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'misc-detail' item.pk %}">{{ item.descripcion }}</a>
+            <span>
+                <a href="{% url 'misc-update' item.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                <a href="{% url 'misc-delete' item.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

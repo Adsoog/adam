@@ -1,0 +1,22 @@
+{% extends "base_inventario.html" %}
+
+{% block title %}Lista de EPPS{% endblock %}
+{% block page_title %}<h1 class="text-center mb-0">EPPS</h1>{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Lista de EPPS</h1>
+    <a href="{% url 'epps-create' %}" class="btn btn-primary mb-3">Crear nuevo EPP</a>
+    <ul class="list-group">
+        {% for item in epps %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'epps-detail' item.pk %}">{{ item.descripcion }}</a>
+            <span>
+                <a href="{% url 'epps-update' item.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                <a href="{% url 'epps-delete' item.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

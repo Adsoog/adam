@@ -1,0 +1,17 @@
+{% extends "base_inventario.html" %}
+
+{% block title %}Subir Archivo Excel{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Subir Archivo Excel para Inventario</h1>
+    <form action="{% url 'upload_excel' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="excel_file" class="form-label">Seleccione el archivo Excel:</label>
+            <input type="file" class="form-control" id="excel_file" name="excel_file" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Subir</button>
+    </form>
+</div>
+{% endblock %}

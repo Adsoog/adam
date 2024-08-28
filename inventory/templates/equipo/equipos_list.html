@@ -1,0 +1,18 @@
+{% extends "base_inventario.html" %}
+
+{% block title %}Lista de Equipos{% endblock %}
+{% block page_title %}<h1 class="text-center mb-0">Equipos</h1>{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Lista de Equipos</h1>
+    <a href="{% url 'equipos-create' %}" class="btn btn-primary mb-3">Crear nuevo Equipo</a>
+    <ul class="list-group">
+        {% for item in equipos %}
+        <li class="list-group-item">
+            <a href="{% url 'equipos-detail' item.pk %}">{{ item.descripcion }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

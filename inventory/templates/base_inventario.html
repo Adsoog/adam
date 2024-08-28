@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Inventario{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    {% load static %}
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      .sidebar {
+        margin: 10px; /* Márgenes alrededor de la sidebar */
+        padding: 10px; /* Padding general */
+        height: calc(
+          120vh - 56px - 20px
+        ); /* Altura ajustada al padding superior e inferior */
+        width: 80px; /* Ancho inicial */
+        background-color: #343a40; /* Fondo de color oscuro */
+        border-radius: 10px; /* Bordes redondeados */
+        transition: width 0.3s; /* Transición suave al cambiar de tamaño */
+      }
+
+      .sidebar.expanded {
+        width: 250px; /* Ancho cuando está expandida */
+      }
+
+      .navbar {
+        margin-bottom: 0;
+        border-bottom: none;
+        background-color: #343a40; /* Fondo de color oscuro */
+        color: #fff;
+      }
+
+      .navbar .navbar-brand {
+        color: #fff; /* Color del texto blanco */
+      }
+
+      .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar-brand {
+        flex: 0 0 100px;
+        text-align: center;
+        font-size: 30px;
+        font-weight: bold;
+      }
+
+      .nav-item {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+
+      .sidebar-sticky {
+        padding-top: 0;
+        margin-top: 0;
+      }
+
+      .nav {
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-link {
+        color: #fff; /* Color del texto blanco */
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        transition: opacity 0.3s; /* Transición suave para la opacidad */
+      }
+
+      .sidebar .nav-link span {
+        display: none; /* Ocultar el texto inicialmente */
+      }
+
+      .sidebar.expanded .nav-link span {
+        display: inline; /* Mostrar el texto cuando está expandida */
+        margin-left: 10px; /* Espacio entre el icono y el texto */
+      }
+
+      .nav-link:hover {
+        background-color: #495057; /* Color de fondo al pasar el ratón */
+      }
+
+      .navbar + .d-flex {
+        margin-top: 0;
+        padding-top: 0;
+      }
+
+      .toggle-button {
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 24px;
+      }
+
+      .nav-link-img {
+        display: flex;
+        align-items: center;
+      }
+
+      .icon-img-nav {
+        width: 50px;
+        height: auto;
+        margin-left: 25px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <header class="navbar navbar-expand-lg">
+
+      <div class="container-fluid">
+        <a class="nav-link-img" href="{% url 'dashboard' %}">
+          <img
+            src="{% static 'images/jp.ico' %}"
+            alt="JP Icon"
+            class="icon-img-nav"
+          />
+        </a>
+        <div class="w-100 text-center">
+          {% block page_title %}{% endblock %}
+        </div>
+      </div>
+    </header>
+    <div class="d-flex">
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column text-center">
+            <button class="toggle-button" onclick="toggleSidebar()">
+              <i class="fas fa-bars"></i>
+            </button>
+
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'inventario_list' %}"
+                title="Inventario"
+              >
+                <div class="icon-square">
+                  <i class="fas fa-warehouse fa-2x"></i>
+                </div>
+                <span>Inventario</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'equipos-list' %}"
+                title="Equipos"
+              >
+                <div class="icon-square">
+                  <i class="fas fa-tools fa-2x"></i>
+                </div>
+                <span>Equipos</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'alimentos-list' %}"
+                title="Alimentos"
+              >
+                <div class="icon-square">
+                  <i class="fas fa-utensils fa-2x"></i>
+                </div>
+                <span>Alimentos</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'consumibles-list' %}"
+                title="Consumibles"
+              >
+                <div class="icon-square">
+                  <i class="fas fa-recycle fa-2x"></i>
+                </div>
+                <span>Consumibles</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'epps-list' %}" title="EPPS">
+                <div class="icon-square">
+                  <i class="fas fa-hard-hat fa-2x"></i>
+                </div>
+                <span>EPPS</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'herramientas-list' %}"
+                title="Herramientas"
+              >
+                <div class="icon-square">
+                  <i class="fas fa-hammer fa-2x"></i>
+                </div>
+                <span>Herramientas</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'mano_de_obra-list' %}"
+                title="Mano de Obra"
+              >
+                <div class="icon-square">
+                  <i class="fas fa-people-carry fa-2x"></i>
+                </div>
+                <span>Mano de Obra</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'materiales-list' %}"
+                title="Materiales"
+              >
+                <div class="icon-square">
+                  <i class="fas fa-cubes fa-2x"></i>
+                </div>
+                <span>Materiales</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'misc-list' %}" title="Misc">
+                <div class="icon-square">
+                  <i class="fas fa-box-open fa-2x"></i>
+                </div>
+                <span>Misc</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'transporte-list' %}"
+                title="Transporte"
+              >
+                <div class="icon-square">
+                  <i class="fas fa-truck fa-2x"></i>
+                </div>
+                <span>Transporte</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="content p-4">
+        <div class="container mt-4">{% block content %} {% endblock %}</div>
+      </div>
+    </div>
+    {% block extra_js %} {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script>
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("expanded");
+      }
+    </script>
+  </body>
+</html>

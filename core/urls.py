@@ -24,7 +24,7 @@ urlpatterns = [
     path('resources/', include('resources.urls')),
     path('performance/', include('performance.urls')),
     path('backlog/', include('backlog.urls')),
-    path('cards/', include('cards.urls')),
+    path('cards/', include('cards.urls')),  
     path('accounts/', include('accounts.urls')),
     path('reports/', include('reports.urls')),
     path('home/', include('home.urls')),
@@ -32,5 +32,7 @@ urlpatterns = [
     path('planning/', include('planning.urls')),
     path('station/', include('station.urls')),
     path('projects/', include('projects.urls')),
+    path('budgets/', include('budgets.urls')),
+    path('inventory/', include('inventory.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

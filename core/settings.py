@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "django_browser_reload",
     'rest_framework',
     'django_htmx',
+    'crispy_forms',
+    "crispy_bootstrap5",
     #APP PARA TODOS LOS BASE
     'nexus',
     'resources',
@@ -56,13 +58,13 @@ INSTALLED_APPS = [
     'accounts',
     'widget_tweaks',
     'reports',
-    'crispy_forms',
-    "crispy_bootstrap5",
     'home',
     'procedures',
     'projects',
     'station',
     'planning',
+    'budgets',
+    'inventory',
 ]
 
 MIDDLEWARE = [

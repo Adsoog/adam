@@ -1,0 +1,12 @@
+{% extends "base_inventario.html" %}
+
+{% block content %}
+  <h1>{{ object.descripcion }}</h1>
+  <p>Artículo número: {{ object.num_articulo }}</p>
+  <p>En stock: {{ object.en_stock }}</p>
+  <p>Precio unitario diario: {{ object.precio_unitario_diario }}</p>
+  <p>Último precio de compra: {{ object.ultimo_precio_compra }}</p>
+  <a href="{% url 'epps-update' object.pk %}" class="btn btn-warning">Editar</a>
+  <a href="{% url 'epps-delete' object.pk %}" class="btn btn-danger">Eliminar</a>
+  <a href="{% url 'epps-list' %}" class="btn btn-secondary">Volver al listado</a>
+{% endblock %}

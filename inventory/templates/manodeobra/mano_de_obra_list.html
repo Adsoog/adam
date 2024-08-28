@@ -1,0 +1,22 @@
+{% extends "base_inventario.html" %}
+
+{% block title %}Lista de Mano de Obra{% endblock %}
+{% block page_title %}<h1 class="text-center mb-0">Mano de Obra</h1>{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Lista de Mano de Obra</h1>
+    <a href="{% url 'mano_de_obra-create' %}" class="btn btn-primary mb-3">Crear nuevo Mano de Obra</a>
+    <ul class="list-group">
+        {% for item in mano_de_obra %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'mano_de_obra-detail' item.pk %}">{{ item.descripcion }}</a>
+            <span>
+                <a href="{% url 'mano_de_obra-update' item.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                <a href="{% url 'mano_de_obra-delete' item.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
