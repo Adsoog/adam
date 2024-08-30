@@ -34,5 +34,6 @@ urlpatterns = [
     path('projects/', include('projects.urls')),
     path('budgets/', include('budgets.urls')),
     path('inventory/', include('inventory.urls')),
+    path('technicians/', include('technicians.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

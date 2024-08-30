@@ -63,7 +63,6 @@ class Tasks(models.Model):
     measurement = models.CharField(max_length=50, default='minutos')
     task_time = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
-    # resources = models.ManyToManyField(Resource, related_name='task_resource')
 
     def __str__(self):
         return self.verb
@@ -76,3 +75,5 @@ class CardsTasksOrder(models.Model):
 
     class Meta:
         ordering = ['order']
+
+
